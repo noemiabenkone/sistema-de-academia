@@ -16,7 +16,7 @@ Desenvolver um sistema para gerenciar alunos, professores,
 
 ## Problemas Identificados
 
-- Demonra para localizar informaçoẽs dos Alunos. 
+- Demora para localizar informaçoẽs dos Alunos. 
 - Controle manual de pagamentos.
 - Dificuldades para acompanhar matrículas. 
 - Informaçoẽs espalhadas em papeis.
