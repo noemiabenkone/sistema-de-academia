@@ -1,18 +1,20 @@
-import { Router} from "express";
-import { 
-    listarAlunos, 
-    buscarAluno, 
-    criarAluno, 
-    atualizarAluno, 
-    deletarAluno } 
-from "../controllers/aluno.controller.js";
+import { Router } from "express";
+import {
+  listarAlunos,
+  buscarAluno,
+  criarAluno,
+  atualizarAluno,
+  desativarAluno,
+  
+} from "../controllers/aluno.controller.js";
 
 const router = Router();
 
-router.get('/',listarAlunos);
-router.get('/:id', buscarAluno);
-router.post('/', criarAluno);
-router.put('/:id', atualizarAluno);
-router.delete('/:id', deletarAluno);
+router.get("/", listarAlunos);
+router.get("/:id", buscarAluno);
+router.post("/", criarAluno);
+router.put("/:id", atualizarAluno);
+router.patch("/:id", desativarAluno);
+
 
 export default router;

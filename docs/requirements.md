@@ -25,12 +25,12 @@ Desenvolver um sistema para gerenciar alunos, professores,
 
 ## Requisitos Funcionais 
 
-- RF01 - Cadastrar Aluno 
-- RF02 - Editar Aluno 
-- RF03 - Desativar Aluno 
-- RF04 - Consultar Aluno 
-- RF05 - Cadastrar Plano 
-- RF06 - Registrar Pagamentos 
+- RF01 - Cadastrar Aluno   
+- RF02 - Editar Aluno      
+- RF03 - Desativar Aluno  
+- RF04 - Consultar Aluno  
+- RF05 - Cadastrar Plano   
+- RF06 - Registrar Pagamentos    
 - RF07 - Emitir Relatorios  
 - RF08 - Realizar Check In do aluno
 - RF09 - Desativar Planos
@@ -42,10 +42,14 @@ Desenvolver um sistema para gerenciar alunos, professores,
 - RF15 - Editar Professor
 - RF16 - Desativar Professor
 - RF17 - Consultar Professor
-- RF18 - Cadastrar Agendamento
+- RF18 - Cadastrar Agendamento  
 - RF19 - Consultar Agendamento
 - RF20 - Alterar Agendamento
 - RF21 - Cancelar Agendamento
+- RF22 - criar usuario
+- RF23 - atualizar usuario
+- RF24 - desativar  usuario
+- RF25 - consultar usuario
 
 
 
@@ -94,6 +98,8 @@ Desenvolver um sistema para gerenciar alunos, professores,
 - RN10 — Agendamento de professor: um agendamento deve estar associado a um aluno, um professor, uma data e um horário válidos.
 
 - RN11 — Pagamento associado à matrícula: todo pagamento deve estar vinculado a uma matrícula existente.
+
+- RN12 - Desativação de aluno: o aluno não deve ser excluído permanentemente do sistema. Quando deixar de frequentar a academia, seu cadastro deve ser marcado como inativo, preservando seu histórico de matrículas, pagamentos, agendamentos e check-ins.
 
 ## Dúvidas para o Cliente
 
