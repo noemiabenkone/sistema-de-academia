@@ -11,14 +11,104 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
 model Aluno {
-  id            Int      @id @default(autoincrement())
-  nome          String
-  cpf           String   @unique
-  email         String   @unique
-  telefone      String?
+  id             Int      @id @default(autoincrement())
+  nome           String
+  cpf            String   @unique
+  email          String   @unique
+  telefone       String?
   dataNascimento DateTime
-  ativo         Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matriculas   Matricula[]
+  agendamentos Agendamento[]
+  checkIns     CheckIn[]
+}
+
+model Usuario {
+  id    Int    @id @default(autoincrement())
+  nome  String
+  email String @unique
+  senha String
+
+  roleId Int
+  role   Role @relation(fields: [roleId], references: [id])
+}
+
+model Role {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  Usuarios Usuario[]
+}
+
+model Professor {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  cpf          String        @unique
+  email        String        @unique
+  agendamentos Agendamento[]
+}
+
+model Plano {
+  id         Int         @id @default(autoincrement())
+  nome       String
+  preco      Decimal
+  beneficios String
+  status     String
+  matriculas Matricula[]
+}
+
+model Matricula {
+  id Int @id @default(autoincrement())
+
+  alunoId Int
+  planoId Int
+
+  aluno Aluno @relation(fields: [alunoId], references: [id])
+  plano Plano @relation(fields: [planoId], references: [id])
+
+  createdAt  DateTime    @default(now())
+  status     String
+  pagamentos Pagamento[]
+}
+
+model Pagamento {
+  id Int @id @default(autoincrement())
+
+  matriculaId Int
+
+  matricula Matricula @relation(fields: [matriculaId], references: [id])
+
+  valor          Decimal
+  createdAt      DateTime @default(now())
+  dataVencimento DateTime @default(now())
+  status         String
+}
+
+model Agendamento {
+  id Int @id @default(autoincrement())
+
+  alunoId     Int
+  professorId Int
+
+  aluno     Aluno     @relation(fields: [alunoId], references: [id])
+  professor Professor @relation(fields: [professorId], references: [id])
+
+  createdAt DateTime @default(now())
+  status    String
+}
+
+model CheckIn {
+  id Int @id @default(autoincrement())
+
+  alunoId Int
+
+  aluno Aluno @relation(fields: [alunoId], references: [id])
+
+  createdAt DateTime @default(now())
+  status    String
 }
