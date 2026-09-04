@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-export function listarRoles(req: Request, res: Response) {
+export  function listarRoles(req: Request, res: Response) {
   res.json({
     message: "Lista de roles",
   });

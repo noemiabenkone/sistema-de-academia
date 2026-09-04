@@ -97,6 +97,7 @@ model Agendamento {
 
   aluno     Aluno     @relation(fields: [alunoId], references: [id])
   professor Professor @relation(fields: [professorId], references: [id])
+  dataHora  DateTime
 
   createdAt DateTime @default(now())
   status    String

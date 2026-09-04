@@ -1,32 +1,53 @@
 import { Request, Response } from "express";
 
-export function listarAlunos(req: Request, res: Response) {
+import {
+  listarAlunos as listarAlunosService,
+  buscarAluno as buscarAlunoService,
+  criarAluno as criarAlunoService,
+  atualizarAluno as atualizarAlunoService,
+  desativarAluno as desativarAlunoService,} 
+from "../services/aluno.service.js";
+
+export async function listarAlunos(req: Request, res: Response) {
+  const alunos = await listarAlunosService();
   res.json({
     message: "Lista de alunos",
+    data: alunos
   });
 }
 
-export function buscarAluno(req: Request, res: Response) {
+export async function buscarAluno(req: Request, res: Response) {
+  const id = Number (req.params.id);
+  const aluno = await buscarAlunoService(id);
   res.json({
-    message: `Aluno ${req.params.id} encontrado`,
+    message: `Aluno ${id} encontrado`,
+    data: aluno
   });
 }
 
-export function criarAluno(req: Request, res: Response) {
+export async function criarAluno(req: Request, res: Response) {
+  const aluno = await criarAlunoService(req.body);
   res.json({
     message: "Aluno criado com sucesso",
+    data: aluno
   });
 }
 
-export function atualizarAluno(req: Request, res: Response) {
+export async function atualizarAluno(req: Request, res: Response) {
+  const id = Number(req.params.id);
+  const aluno = await atualizarAlunoService(id, req.body);
   res.json({
-    message: `Aluno ${req.params.id} atualizado com sucesso`,
+    message: `Aluno ${id} atualizado com sucesso`,
+    data: aluno
   });
 }
 
-export function desativarAluno(req: Request, res: Response) {
+export async function desativarAluno(req: Request, res: Response) {
+  const id = Number(req.params.id);
+  const aluno = await desativarAlunoService(id);
   res.json({
-    message: `Aluno ${req.params.id} desativado com sucesso`,
+    message: `Aluno ${id} desativado com sucesso`,
+    data: aluno
   });
 }
 
