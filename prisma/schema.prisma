@@ -85,7 +85,8 @@ model Pagamento {
 
   valor          Decimal
   createdAt      DateTime @default(now())
-  dataVencimento DateTime @default(now())
+  dataPagamento  DateTime
+  dataVencimento DateTime
   status         String
 }
 
@@ -110,6 +111,7 @@ model CheckIn {
 
   aluno Aluno @relation(fields: [alunoId], references: [id])
 
-  createdAt DateTime @default(now())
-  status    String
+  createdAt   DateTime @default(now())
+  dataCheckIn DateTime
+  status      String
 }
