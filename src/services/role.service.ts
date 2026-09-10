@@ -9,3 +9,45 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({
   adapter,
 });
+export async function criarRole(nome: string) {
+  const role = await prisma.role.create({
+    data: {
+      nome,
+    },
+  });
+  return role;
+}
+export async function atualizarRole(id: number, nome: string) {
+  const role = await prisma.role.update({
+    where: {
+      id,
+    },
+    data: {
+      nome,
+    },
+  });
+  return role;
+}
+export async function desativarRole(id: number) {
+  const role = await prisma.role.update({
+    where: {
+      id,
+    },
+    data: {
+      ativo: false,
+    },
+  });
+  return role;
+}
+export async function listarRoles() {
+  const roles = await prisma.role.findMany();
+  return roles;
+}
+export async function buscarRole(id: number) {
+  const role = await prisma.role.findUnique({
+    where: {
+      id,
+    },
+  });
+  return role;
+}

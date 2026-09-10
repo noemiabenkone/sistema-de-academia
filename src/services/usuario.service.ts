@@ -9,3 +9,52 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({
   adapter,
 });
+
+export async function criarUsuario(data: any) {
+  const usuarioExistence = await prisma.usuario.findUnique({
+  where: {
+    email: data.email
+  }
+ })
+ if (usuarioExistence) {
+  throw new Error(`usuario com email ${data.email} já existe`);
+ }
+ return await prisma.usuario.create({
+    data
+ })
+}
+
+export async function buscarUsuario(id: number) {
+  const usuario = await prisma.usuario.findUnique({
+    where: {
+      id,
+    },
+  });
+  return usuario;
+}
+
+export async function atualizarUsuario(id: number, data: any) {
+  const usuario = await prisma.usuario.update({
+    where: { id },
+    data
+  });
+
+  return usuario;
+}
+
+export async function desativarUsuario(id: number) {
+  const usuario = await prisma.usuario.update({
+    where: {
+      id,
+    },
+    data: {
+      ativo: false,
+    },
+  });
+  return usuario;
+}
+
+export async function listarUsuarios() {
+  const usuarios = await prisma.usuario.findMany();
+  return usuarios;
+}

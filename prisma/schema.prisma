@@ -30,19 +30,20 @@ model Aluno {
 }
 
 model Usuario {
-  id    Int    @id @default(autoincrement())
-  nome  String
-  email String @unique
-  senha String
-
+  id     Int     @id @default(autoincrement())
+  nome   String
+  email  String  @unique
+  senha  String
+  ativo  Boolean @default(true)
   roleId Int
-  role   Role @relation(fields: [roleId], references: [id])
+  role   Role    @relation(fields: [roleId], references: [id])
 }
 
 model Role {
   id       Int       @id @default(autoincrement())
   nome     String
-  Usuarios Usuario[]
+  ativo    Boolean   @default(true)
+  usuarios Usuario[]
 }
 
 model Professor {
@@ -50,6 +51,7 @@ model Professor {
   nome         String
   cpf          String        @unique
   email        String        @unique
+  ativo        Boolean       @default(true)
   agendamentos Agendamento[]
 }
 
