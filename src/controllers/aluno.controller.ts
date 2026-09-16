@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+
 import {
   listarAlunos as listarAlunosService,
   buscarAluno as buscarAlunoService,
@@ -7,6 +8,7 @@ import {
   atualizarAluno as atualizarAlunoService,
   desativarAluno as desativarAlunoService,} 
 from "../services/aluno.service.js";
+import { alunoSchema } from "../schemas/aluno.schema.js";
 
 export async function listarAlunos(req: Request, res: Response) {
   const alunos = await listarAlunosService();
@@ -26,7 +28,8 @@ export async function buscarAluno(req: Request, res: Response) {
 }
 
 export async function criarAluno(req: Request, res: Response) {
-  const aluno = await criarAlunoService(req.body);
+  const dadosValidados = alunoSchema.parse(req.body);
+  const aluno = await criarAlunoService(dadosValidados);
   res.json({
     message: "Aluno criado com sucesso",
     data: aluno
@@ -35,7 +38,8 @@ export async function criarAluno(req: Request, res: Response) {
 
 export async function atualizarAluno(req: Request, res: Response) {
   const id = Number(req.params.id);
-  const aluno = await atualizarAlunoService(id, req.body);
+  const dadosValidados = alunoSchema.parse(req.body)
+  const aluno = await atualizarAlunoService(id, dadosValidados);
   res.json({
     message: `Aluno ${id} atualizado com sucesso`,
     data: aluno

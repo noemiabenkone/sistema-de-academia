@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { AlunoInput } from "../schemas/aluno.schema.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -22,7 +23,7 @@ export async function buscarAluno(id: number) {
   })
 }
 
-export async function criarAluno(data: any) {
+export async function criarAluno(data: AlunoInput) {
  const alunoExistence = await prisma.aluno.findUnique({
   where: {
     cpf: data.cpf
@@ -39,7 +40,7 @@ export async function criarAluno(data: any) {
 
 
 
-export async function atualizarAluno(id: number, data: any) {
+export async function atualizarAluno(id: number, data: AlunoInput) {
   return await prisma.aluno.update({
     where: {
       id

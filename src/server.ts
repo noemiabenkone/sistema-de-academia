@@ -1,4 +1,5 @@
 import express from "express";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
 import alunoRoutes from "./routes/aluno.routes.js";
 import planoRoutes from "./routes/plano.routes.js";
 import professorRoutes from "./routes/professor.routes.js";
@@ -21,6 +22,8 @@ app.use("/matriculas", matriculaRoutes);
 app.use("/agendamentos", agendamentoRoutes);
 app.use("/usuarios", usuarioRoutes);
 app.use("/roles", rolesRoutes);
+
+app.use(errorMiddleware);
 const PORT = 3000;
 
 app.listen(PORT, () => {
