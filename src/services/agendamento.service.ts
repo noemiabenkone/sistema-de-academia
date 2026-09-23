@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { AgendamentoInput } from "../schemas/agendamento.schema.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -21,7 +22,7 @@ export async function buscarAgendamento(id: number) {
     })
 }
 
-export async function criarAgendamento(agendamentoData: any) {
+export async function criarAgendamento(agendamentoData: AgendamentoInput) {
     const agendamentoAluno = await prisma.agendamento.findFirst({
         where: {
             alunoId: agendamentoData.alunoId,
@@ -58,13 +59,49 @@ export async function criarAgendamento(agendamentoData: any) {
     return agendamento;
 }
 
-export async function atualizarAgendamento(id: number, agendamentoData: any) {
-    return await prisma.agendamento.update({
-        where: {
-            id: id
-        },
-        data: agendamentoData
-    })
+export async function atualizarAgendamento(
+  id: number,
+  agendamentoData: AgendamentoInput
+) {
+  const agendamentoAtual = await prisma.agendamento.findUnique({
+    where: { id }
+  });
+  if (!agendamentoAtual) {
+    throw new Error("Agendamento não encontrado");
+  }
+  const conflitoAluno = await prisma.agendamento.findFirst({
+  where: {
+    alunoId: agendamentoData.alunoId,
+    dataHora: agendamentoData.dataHora,
+    status: "ATIVA",
+    id: { not: id }
+    }
+  });
+  if (conflitoAluno) {
+  throw new Error("Aluno já possui um agendamento ativo neste horário");
+  }
+
+  const conflitoProfessor = await prisma.agendamento.findFirst({
+  where: {
+    professorId: agendamentoData.professorId,
+    dataHora: agendamentoData.dataHora,
+    status: "ATIVA",
+    id: { not: id }
+  }
+  });
+
+  if (conflitoProfessor) {
+  throw new Error("o Professor já possui um agendamento ativo neste horário");
+ }
+  
+ return await prisma.agendamento.update({
+  where: { id },
+  data: {
+    alunoId: agendamentoData.alunoId,
+    professorId: agendamentoData.professorId,
+    dataHora: agendamentoData.dataHora
+  }
+ });
 }
 
 export async function cancelarAgendamento(id: number) {

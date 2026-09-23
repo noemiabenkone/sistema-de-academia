@@ -74,6 +74,7 @@ Desenvolver um sistema para gerenciar alunos, professores,
 - RNF09 — Desempenho: as operações da API devem apresentar tempo de resposta adequado para as operações previstas na primeira versão do sistema.
 
 
+
 ## Regras de Negócio
 
 
@@ -100,6 +101,12 @@ Desenvolver um sistema para gerenciar alunos, professores,
 - RN11 — Pagamento associado à matrícula: todo pagamento deve estar vinculado a uma matrícula existente.
 
 - RN12 - Desativação de aluno: o aluno não deve ser excluído permanentemente do sistema. Quando deixar de frequentar a academia, seu cadastro deve ser marcado como inativo, preservando seu histórico de matrículas, pagamentos, agendamentos e check-ins.
+
+- RN13 — Status automático do pagamento: ao registrar um pagamento, o sistema deve definir automaticamente o status como PAGO. O usuário não informa o status.
+
+- RN14 — Data automática do pagamento: a data do pagamento deve ser definida automaticamente pelo sistema no momento do registro. O usuário não informa a data.
+
+- RN15 — Data de vencimento automática: a data de vencimento deve ser determinada pelo sistema de acordo com a regra de vencimento definida para a matrícula/plano. O usuário não informa essa data.
 
 ## Dúvidas para o Cliente
 

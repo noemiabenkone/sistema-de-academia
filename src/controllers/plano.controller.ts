@@ -1,79 +1,49 @@
 import { Request, Response } from "express";
-import { criarPlano as criarPlanoService } from "../services/plano.service.js";
-import { listarPlanos as listarPlanosService } from "../services/plano.service.js";
-import { buscarPlano as buscarPlanoService } from "../services/plano.service.js";
-import { atualizarPlano as atualizarPlanoService } from "../services/plano.service.js";
-import { desativarPlano as desativarPlanoService } from "../services/plano.service.js";
+import { 
+  criarPlano as criarPlanoService,
+  listarPlanos as listarPlanosService,
+  buscarPlano as buscarPlanoService,
+  atualizarPlano as atualizarPlanoService,
+  desativarPlano as desativarPlanoService
+}from "../services/plano.service.js";
+import { planoSchema } from "../schemas/plano.schema.js";
 
 export async function listarPlanos(req: Request, res: Response) {
-  try{
-    const planos = await listarPlanosService();
-    res.json(planos);
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao listar planos",
-      error
-    });
-  }
+  const planos = await listarPlanosService();
+  res.json(planos);
 }
 
 export async function buscarPlano(req: Request, res: Response) {
   const id = Number(req.params.id);
-  try{
-    const plano = await buscarPlanoService(id);
-    res.json(plano);
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar plano",
-      error
-    });
-  }
+  const plano = await buscarPlanoService(id);
+  res.json(plano);
 }
 
 export async function criarPlano(req: Request, res: Response) {
-  const planoData = req.body;
- try{
-  const plano = await criarPlanoService(planoData);
+  const dadosValidados = planoSchema.parse(req.body)
+  const plano = await criarPlanoService(dadosValidados);
   res.status(201).json({
     message: "Plano criado com sucesso",
     plano,
   });
- } catch (error) {
-  res.status(500).json({
-    message: "Erro ao criar plano",
-    error
-  });
- }
+ 
 }
 
 export async function atualizarPlano(req: Request, res: Response) {
   const id = Number(req.params.id);
-  try{
-    const plano = await atualizarPlanoService(id, req.body);
-    res.json({
-      message: `Plano ${id} atualizado com sucesso`,
-      plano,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao atualizar plano",
-      error
-    });
-  }
+  const dadosValidados = planoSchema.parse(req.body)
+  const plano = await atualizarPlanoService(id, dadosValidados);
+  res.json({
+    message: `Plano ${id} atualizado com sucesso`,
+    plano,
+  });
 }
 
 export async function desativarPlano(req: Request, res: Response) {
   const id = Number(req.params.id);
-  try{
-    const plano = await desativarPlanoService(id);
-    res.json({
-      message: `Plano ${id} desativado com sucesso`,
-      plano,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao desativar plano",
-      error
-    });
-  }
+  const plano = await desativarPlanoService(id);
+  res.json({
+    message: `Plano ${id} desativado com sucesso`,
+    plano,
+  });
 }

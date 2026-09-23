@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+
 import { ZodError } from "zod";
 
 export function errorMiddleware(
@@ -7,6 +8,7 @@ export function errorMiddleware(
   res: Response,
   next: NextFunction
 ) {
+
   if (err instanceof ZodError) {
     return res.status(400).json({
       message: "Dados inválidos",
@@ -14,6 +16,12 @@ export function errorMiddleware(
         campo: issue.path.join("."),
         mensagem: issue.message
       }))
+    });
+  }
+
+  if (err.message === "Matrícula não encontrada") {
+    return res.status(404).json({
+      message: err.message
     });
   }
 

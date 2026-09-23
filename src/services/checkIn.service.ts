@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { CheckInInput } from "../schemas/checkIn.schema.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -9,7 +10,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({
   adapter,
 });
-export async function registrarCheckIn(checkInData: any) {
+export async function registrarCheckIn(checkInData: CheckInInput) {
   const alunoId = checkInData.alunoId;
 
  const matricula = await prisma.matricula.findFirst({
@@ -17,21 +18,15 @@ export async function registrarCheckIn(checkInData: any) {
     alunoId,
     status: "ATIVA"
   },
-
   include: {
     pagamentos: {
-      where: {
-        status: {
-          not: "PAGO"
-        }
-      },
       orderBy: {
         dataVencimento: "desc"
       },
       take: 1
     }
   }
-});
+ });
   if (!matricula) {
     throw new Error("Aluno não possui matrícula ativa");
   }

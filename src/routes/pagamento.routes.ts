@@ -9,6 +9,6 @@ const router = Router();
 
 router.get('/', listarPagamentos);
 router.get('/:id', buscarPagamento);
-router.post('/:id', registrarPagamento);
+router.post('/', registrarPagamento);
 
 export default router;

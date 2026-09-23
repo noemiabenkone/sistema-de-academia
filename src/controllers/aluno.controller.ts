@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-
-
+import { alunoSchema } from "../schemas/aluno.schema.js";
 import {
   listarAlunos as listarAlunosService,
   buscarAluno as buscarAlunoService,
@@ -8,7 +7,6 @@ import {
   atualizarAluno as atualizarAlunoService,
   desativarAluno as desativarAlunoService,} 
 from "../services/aluno.service.js";
-import { alunoSchema } from "../schemas/aluno.schema.js";
 
 export async function listarAlunos(req: Request, res: Response) {
   const alunos = await listarAlunosService();

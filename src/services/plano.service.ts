@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { PlanoInput } from "../schemas/plano.schema.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -10,7 +11,7 @@ const prisma = new PrismaClient({
   adapter,
 });
 
-export async function criarPlano(planoData: any) {
+export async function criarPlano(planoData: PlanoInput) {
   const nome = planoData.nome;
   const beneficios = planoData.beneficios;
   const preco = planoData.preco;
@@ -36,7 +37,7 @@ export async function buscarPlano(id: number) {
   })
 }
 
-export async function atualizarPlano(id: number, planoData: any) {
+export async function atualizarPlano(id: number, planoData: PlanoInput) {
   const nome = planoData.nome;
   const beneficios = planoData.beneficios;
   const preco = planoData.preco;

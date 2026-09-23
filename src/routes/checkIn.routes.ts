@@ -9,6 +9,6 @@ const router = Router();
 
 router.get('/', listarCheckIns);
 router.get('/:id', buscarCheckIn);
-router.post('/:id', registrarCheckIn);
+router.post('/', registrarCheckIn);
 
 export default router;

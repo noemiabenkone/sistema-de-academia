@@ -38,8 +38,6 @@ export async function criarAluno(data: AlunoInput) {
   
 }
 
-
-
 export async function atualizarAluno(id: number, data: AlunoInput) {
   return await prisma.aluno.update({
     where: {

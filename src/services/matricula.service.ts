@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { MatriculaInput } from "../schemas/matricula.schema.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -22,7 +23,7 @@ export async function buscarMatricula(id: number) {
     })
 }
 
-export async function criarMatricula(matriculaData: any) {
+export async function criarMatricula(matriculaData: MatriculaInput) {
     const matriculaAtiva = await prisma.matricula.findFirst({
         where: {
             alunoId: matriculaData.alunoId,
@@ -45,7 +46,7 @@ export async function criarMatricula(matriculaData: any) {
     return matricula;
 }
 
-export async function atualizarMatricula(id: number, matriculaData: any) {
+export async function atualizarMatricula(id: number, matriculaData: MatriculaInput) {
     return await prisma.matricula.update({
         where: {
             id: id

@@ -79,11 +79,11 @@ model Matricula {
 }
 
 model Pagamento {
-  id Int @id @default(autoincrement())
+  id             Int @id      @default(autoincrement())
 
-  matriculaId Int
+  matriculaId    Int
 
-  matricula Matricula @relation(fields: [matriculaId], references: [id])
+  matricula      Matricula @relation(fields: [matriculaId], references: [id])
 
   valor          Decimal
   createdAt      DateTime @default(now())

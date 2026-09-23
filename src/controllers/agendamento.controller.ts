@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
-import { listarAgendamentos as listarAgendamentosService } from "../services/agendamento.service.js";
-import { buscarAgendamento as buscarAgendamentoService } from "../services/agendamento.service.js";
-import { criarAgendamento as criarAgendamentoService } from "../services/agendamento.service.js";
-import { atualizarAgendamento as atualizarAgendamentoService } from "../services/agendamento.service.js";
-import { cancelarAgendamento as cancelarAgendamentoService } from "../services/agendamento.service.js";
+import {
+ listarAgendamentos as listarAgendamentosService, 
+ buscarAgendamento as buscarAgendamentoService,
+ criarAgendamento as criarAgendamentoService,
+ atualizarAgendamento as atualizarAgendamentoService,
+ cancelarAgendamento as cancelarAgendamentoService 
+} from "../services/agendamento.service.js";
+import { agendamentoSchema } from "../schemas/agendamento.schema.js";
 
 export async function listarAgendamentos(req: Request, res: Response) {
  const agendamentos = await listarAgendamentosService();
-
   res.json({
     message: "Lista de agendamentos",
     data: agendamentos
@@ -24,25 +26,30 @@ export async function consultarAgendamento(req: Request, res: Response) {
   });
 }
 
-export function criarAgendamento(req: Request, res: Response) {
-  const agendamento = criarAgendamentoService(req.body);
+export async function criarAgendamento(req: Request, res: Response) {
+  const dadosValidados = agendamentoSchema.parse(req.body)
+  const agendamento = await criarAgendamentoService(dadosValidados);
   res.json({
     message: "Agendamento criado com sucesso",
+    agendamento
   });
 }
 
-export function atualizarAgendamento(req: Request, res: Response) {
+export async function atualizarAgendamento(req: Request, res: Response) {
   const id = Number(req.params.id);
-  const agendamento = atualizarAgendamentoService(id, req.body);
+  const dadosValidados = agendamentoSchema.parse(req.body)
+  const agendamento = await atualizarAgendamentoService(id, dadosValidados);
   res.json({
     message: `Agendamento ${req.params.id} atualizado com sucesso`,
+    agendamento
   });
 }
 
-export function cancelarAgendamento(req: Request, res: Response) {
+export async function cancelarAgendamento(req: Request, res: Response) {
   const id = Number(req.params.id);
-  const agendamento = cancelarAgendamentoService(id);
+  const agendamento = await cancelarAgendamentoService(id);
   res.json({
     message: `Agendamento ${req.params.id} cancelado com sucesso`,
+    agendamento
   });
 }

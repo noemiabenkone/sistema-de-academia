@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { RoleInput } from "../schemas/role.schema.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -9,22 +10,19 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({
   adapter,
 });
-export async function criarRole(nome: string) {
+export async function criarRole(data: RoleInput) {
   const role = await prisma.role.create({
-    data: {
-      nome,
-    },
+    data
   });
   return role;
 }
-export async function atualizarRole(id: number, nome: string) {
+export async function atualizarRole(id: number, data: RoleInput) {
   const role = await prisma.role.update({
     where: {
       id,
     },
-    data: {
-      nome,
-    },
+    data
+      
   });
   return role;
 }
