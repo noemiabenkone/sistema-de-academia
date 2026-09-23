@@ -2,6 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PagamentoInput } from "../schemas/pagamento.schema.js";
+import { AppError } from "../errors/AppError.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -24,8 +25,11 @@ dataVencimento.setMonth(dataVencimento.getMonth() + 1);
   });
 
   if (!matricula) {
-  throw new Error("Matrícula não encontrada");
-}
+  throw new AppError(
+    "Matrícula não encontrada",
+    404
+  );
+ }
 
   
   return prisma.pagamento.create({

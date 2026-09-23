@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-
 import { ZodError } from "zod";
+import { AppError } from "../errors/AppError.js";
 
 export function errorMiddleware(
   err: Error,
@@ -19,8 +19,8 @@ export function errorMiddleware(
     });
   }
 
-  if (err.message === "Matrícula não encontrada") {
-    return res.status(404).json({
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
       message: err.message
     });
   }
@@ -28,4 +28,4 @@ export function errorMiddleware(
   return res.status(500).json({
     message: "Erro interno do servidor"
   });
-}
+} 

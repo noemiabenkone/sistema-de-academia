@@ -6,4 +6,4 @@ export const professorSchema = z.object({
     email: z.email()
 })
 
-export type ProfessorInput = z.infer<typeof professorSchema>
+export type ProfessorInput = z.infer<typeof professorSchema> 

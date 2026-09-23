@@ -2,6 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { AlunoInput } from "../schemas/aluno.schema.js";
+import { AppError } from "../errors/AppError.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -29,9 +30,14 @@ export async function criarAluno(data: AlunoInput) {
     cpf: data.cpf
   }
  })
+
  if (alunoExistence) {
-  throw new Error(`Aluno com CPF ${data.cpf} já existe`);
- }
+   throw new AppError(
+    `Aluno com CPF ${data.cpf} já existe`,
+    409
+   );
+  }
+
  return await prisma.aluno.create({
     data
  })

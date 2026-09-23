@@ -2,6 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { MatriculaInput } from "../schemas/matricula.schema.js";
+import { AppError } from "../errors/AppError.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -32,8 +33,11 @@ export async function criarMatricula(matriculaData: MatriculaInput) {
     })
     
     if (matriculaAtiva) {
-        throw new Error("Aluno já possui uma matrícula ativa");
-    }
+    throw new AppError(
+        "Aluno já possui uma matrícula ativa",
+        409
+    );
+}
 
     const matricula = await prisma.matricula.create({
         data: {

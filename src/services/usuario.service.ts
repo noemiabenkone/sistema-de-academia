@@ -2,6 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { UsuarioInput } from "../schemas/usuario.schema.js";
+import { AppError } from "../errors/AppError.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -18,8 +19,11 @@ export async function criarUsuario(data: UsuarioInput) {
   }
  })
  if (usuarioExistence) {
-  throw new Error(`usuario com email ${data.email} já existe`);
- }
+  throw new AppError(
+    `Usuário com email ${data.email} já existe`,
+    409
+  );
+}
  return await prisma.usuario.create({
     data
  })
